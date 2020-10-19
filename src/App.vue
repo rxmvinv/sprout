@@ -16,6 +16,11 @@ export default {
 </script>
 
 <style>
+html {
+  font-family: sans-serif;
+  background: linear-gradient(#141e30, #243b55);
+  height: 100%;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

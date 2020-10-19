@@ -1,6 +1,7 @@
 <template>
-  <div class="final-result">
-    K: {{result}}
+  <div class="final-result" v-bind:class="{ active: result > 0 }">
+    <label>K:</label>
+    <div>{{result}}</div>
   </div>
 </template>
 
@@ -27,18 +28,19 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.final-result {
+  color: #fff;
+  display: flex;
+  align-items: center;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+label {
+  margin-right: 4%;
+  pointer-events: none;
+  transition: .5s;
+  user-select: none;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.final-result.active label {
+  color: #03e9f4;
+  font-size: 12px;
 }
 </style>

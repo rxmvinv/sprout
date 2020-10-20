@@ -69,37 +69,40 @@ export default {
           roundNum.val = parseInt(event.number ? 
             event.number : roundNum.val) : false)
     },
-    methodM ({D, E, F}) {
-      //Value M can be altered by customs if it can't bing back expected
-      //result on first calculation it's making another calculation
+    // Our M value from TASK is a function calling methodM 
+    methodM ({D, E, F}) { 
+      // Both expressions from TASK are used 
+      // if BASE isn't working CUSTOM SET is checked
       let calc = D + (D * E / 10);
 
       calc % 1 === 0 ? F + D + (D * E / 100) : calc;
       return calc;
-    }, // Our M value from conditions becomes function calling methodM 
+    }, 
+    // Our T value from TASK is a function calling methodT
     methodT ({D, F, tryArg}) {
       let calc = D - (D * F / 30);
 
-      //Different values M and T for one condition and methodT is both function
-      //returning method or direct calculation
-      //If first method can't bring expected result it returns second method
+      //If methodT is assigned in first condition it can return either M or T
       if (tryArg) {
         calc = calc % 1 === 0 ? this.methodM : this.methodT
       }
       return calc;
-    }, // Our T value from conditions becomes function calling methodT
+    }, 
+    // Our P value from TASK is a function calling methodP 
     methodP ({D, E, F}) {
-      //Value P can be altered by customs if it can't bing back expected
-      //result on first calculation it's making another calculation
+      // Both expressions from TASK are used 
+      // if BASE isn't working CUSTOM SET is checked
       let calc = D + (D * (E - F) / 25.5);
       calc % 1 === 0 ? 2 * D + (D * E / 100) : calc;
       return calc;
-    }, // Our P value from conditions becomes function calling methodP 
+    }, 
+    //Our H value from TASK is assigned to M or P or T 
+    // and H is a function returning K after CALL
     methodH: function ({A, B, C, M, P, T}) {
       
-      //Conditions can be extended by customs 
-      //and in first condition strictly we are waiting one value (method)
-      //but here is a trick with callback to try both methods by one condition
+      //First condition/rule is repeated in BASE and CUSTOM SET of our TASK 
+      //and can assign H to two values T and M and we calling T
+      //but T can return either T or M value (method)
       let toBeCalled = (A && B && !C) ? () => T({tryArg: true}) : 
         (!A && B && C) ? T : 
         (A && !B && C) ? M : 
@@ -107,8 +110,8 @@ export default {
         () => this.errorHandling();
 
       return toBeCalled;
-    }, //Our H is either one of three values [M, P, T] and H is a function
-    //as well as any of three values
+    },
+    // Expected K property supposed to be a float number
     methodK: function () {
       let self = this,
           
@@ -127,7 +130,9 @@ export default {
           roundResult = parseFloat(H()).toFixed(2);
       self.resultK = parseFloat(roundResult);
       (self.resultK % 1 === 0) && self.errorHandling();
-    }, // Expected K property supposed to be a float number
+    },
+    // If calculation didn't work or result isn't float number
+    //there is a message requesting user to try with other conditions.
     errorHandling: function () {
       clearTimeout(showError);
       this.errorMessage = 
@@ -136,8 +141,7 @@ export default {
         this.errorMessage = '';
       }, 2000);
       return 0.0;
-    }// If calculation didn't work or result isn't float number
-    //there is a verbal request to user to try to change conditions.
+    }
   },
   watch: {
     switchers: [
